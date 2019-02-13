@@ -1,22 +1,22 @@
 {
-  "name": "yup-schema",
-  "version": "1.0.0",
-  "description": "Describe yup-schema here",
-  "private": true,
-  "scripts": {
-    "build": "nwb build-web-app",
-    "clean": "nwb clean-app",
-    "start": "nwb serve-web-app --reload",
-    "test": "nwb test",
-    "test:coverage": "nwb test --coverage",
-    "test:watch": "nwb test --server"
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-    "nwb": "0.23.x"
-  },
-  "author": "",
-  "license": "MIT",
-  "repository": ""
+    "name": "array-to-yup",
+    "version": "1.0.0",
+    "description": "Describe array-to-yup here",
+    "private": true,
+    "scripts": {
+        "build": "nwb build-web-app",
+        "clean": "nwb clean-app",
+        "test": "nwb test",
+        "test:coverage": "nwb test --coverage",
+        "test:watch": "nwb test --server"
+    },
+    "dependencies": {
+        "yup": "^0.26.10"
+    },
+    "devDependencies": {
+        "nwb": "0.23.x"
+    },
+    "author": "",
+    "license": "MIT",
+    "repository": ""
 }
