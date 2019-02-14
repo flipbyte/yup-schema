@@ -6,7 +6,7 @@ export default class Rules {
     }
 
     isRule(arg) {
-        if (Array.isArray(arg) && Array.isArray(arg[0])) {
+        if (Array.isArray(arg) && Array.isArray(arg[0]) && yup[arg[0][0]]) {
             return true;
         }
 
@@ -39,19 +39,22 @@ export default class Rules {
 
     toYup() {
         var rules = [...this.rules];
-        let type = rules.shift()[0]
+        var ruleType = rules.shift();
+        let type = ruleType.shift()
         if (!type || !yup[type]) {
             throw new Error('Type ' + type + ' does not exist');
         }
 
-        var yupRule = yup[type]();
+        let ruleTypeArgs = this.processArgs(ruleType) || [];
+
+        var yupRule = yup[type](...ruleTypeArgs);
         rules.forEach(rule => {
             let fn = rule.shift();
             if (!fn || !yupRule[fn]) {
                 throw new Error('Method ' + fn + ' does not exist');
             }
 
-            let args = this.processArgs(rule);
+            let args = this.processArgs(rule) || [];
             yupRule = yupRule[fn](...args)
         })
 

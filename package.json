@@ -1,6 +1,6 @@
 {
-    "name": "array-to-yup",
-    "version": "1.0.0",
+    "name": "yup-schema",
+    "version": "0.1.0",
     "description": "Describe array-to-yup here",
     "private": true,
     "scripts": {
@@ -14,6 +14,7 @@
         "yup": "^0.26.10"
     },
     "devDependencies": {
+        "karma-chai-plugins": "^0.9.0",
         "nwb": "0.23.x"
     },
     "author": "",
