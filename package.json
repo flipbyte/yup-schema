@@ -2,7 +2,6 @@
     "name": "@flipbyte/yup-schema",
     "version": "0.1.0",
     "description": "Easily define your yup rules using arrays instead of yup object",
-    "private": true,
     "scripts": {
         "build": "nwb build-web-app",
         "clean": "nwb clean-app",
