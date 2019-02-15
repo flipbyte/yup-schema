@@ -1,8 +1,7 @@
 {
-    "name": "yup-schema",
-    "version": "0.1.0",
-    "description": "Describe array-to-yup here",
-    "private": true,
+    "name": "@flipbyte/yup-schema",
+    "version": "0.1.1",
+    "description": "Easily define your yup rules using arrays instead of yup object",
     "scripts": {
         "build": "nwb build-web-app",
         "clean": "nwb clean-app",
@@ -19,5 +18,8 @@
     },
     "author": "",
     "license": "MIT",
-    "repository": ""
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/flipbyte/yup-schema.git"
+    }
 }
