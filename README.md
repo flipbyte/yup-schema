@@ -37,7 +37,6 @@ would become
 }]]
 ```
 
-
 ## License
 The MIT License (MIT)
 
