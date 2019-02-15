@@ -1,14 +1,16 @@
 {
     "name": "@flipbyte/yup-schema",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Easily define your yup rules using arrays instead of yup object",
     "scripts": {
-        "build": "nwb build-web-app",
-        "clean": "nwb clean-app",
+        "build": "nwb build-web-module",
+        "clean": "nwb clean-module",
+        "prepublishOnly": "npm run build",
         "test": "nwb test",
         "test:coverage": "nwb test --coverage",
         "test:watch": "nwb test --server"
     },
+
     "dependencies": {
         "yup": "^0.26.10"
     },
