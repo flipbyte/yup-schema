@@ -45,7 +45,7 @@ export default class Rules {
             throw new Error('Type ' + type + ' does not exist');
         }
 
-        let ruleTypeArgs = this.processArgs(ruleType) || [];
+        let ruleTypeArgs = this.processArgs(ruleType);
 
         var yupRule = yup[type](...ruleTypeArgs);
         rules.forEach(rule => {
@@ -54,7 +54,7 @@ export default class Rules {
                 throw new Error('Method ' + fn + ' does not exist');
             }
 
-            let args = this.processArgs(rule) || [];
+            let args = this.processArgs(rule);
             yupRule = yupRule[fn](...args)
         })
 

@@ -5,7 +5,9 @@ describe('Boolean types', () => {
     let config
 
     it('should CAST correctly', () => {
-        let rules = [['bool']]
+        let rules = [
+            ['bool']
+        ]
         let inst = new Rules(rules).toYup();
 
         inst.cast('true').should.equal(true);
@@ -17,7 +19,9 @@ describe('Boolean types', () => {
     })
 
     it('should handle DEFAULT', () => {
-        let rules = [['bool']]
+        let rules = [
+            ['bool']
+        ]
         let inst = new Rules(rules).toYup();
 
         expect(inst.default()).to.equal(undefined);
@@ -25,7 +29,9 @@ describe('Boolean types', () => {
     });
 
     it('should type check', () => {
-        let rules = [['bool']]
+        let rules = [
+            ['bool']
+        ]
         let inst = new Rules(rules).toYup();
 
         inst.isType(1).should.equal(false);
@@ -43,14 +49,28 @@ describe('Boolean types', () => {
     });
 
     it('bool should VALIDATE correctly', () => {
-        let rules = [['bool'], ['required']];
+        let rules = [
+            ['bool'],
+            ['required']
+        ];
         let inst = new Rules(rules).toYup();
 
         let instances = [
-            new Rules([['bool']]).toYup().isValid('1').should.eventually.equal(true),
-            new Rules([['bool'], ['strict']]).toYup().isValid(null).should.eventually.equal(false),
-            new Rules([['bool'], ['nullable']]).toYup().isValid(null).should.eventually.equal(true),
-            new Rules([['bool'], ['required']]).toYup().validate().should.be.rejected.then(err => {
+            new Rules([
+                ['bool']
+            ]).toYup().isValid('1').should.eventually.equal(true),
+            new Rules([
+                ['bool'],
+                ['strict']
+            ]).toYup().isValid(null).should.eventually.equal(false),
+            new Rules([
+                ['bool'],
+                ['nullable']
+            ]).toYup().isValid(null).should.eventually.equal(true),
+            new Rules([
+                ['bool'],
+                ['required']
+            ]).toYup().validate().should.be.rejected.then(err => {
                 err.errors.length.should.equal(1);
                 err.errors[0].should.contain('required');
             })

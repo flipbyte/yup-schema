@@ -7,7 +7,9 @@ function isValidDate(date) {
 
 describe('Date types', () => {
     it('should CAST correctly', () => {
-        let rules = [['date']]
+        let rules = [
+            ['date']
+        ]
         let inst = new Rules(rules).toYup();
 
         inst.cast(new Date()).should.be.a('date');
@@ -20,7 +22,9 @@ describe('Date types', () => {
     });
 
     it('should return invalid date for failed casts', function() {
-        let rules = [['date']]
+        let rules = [
+            ['date']
+        ]
         let inst = new Rules(rules).toYup();
 
         inst.cast(null, {
@@ -32,7 +36,9 @@ describe('Date types', () => {
     });
 
     it('should type check', () => {
-        let rules = [['date']]
+        let rules = [
+            ['date']
+        ]
         let inst = new Rules(rules).toYup();
 
         inst.isType(new Date()).should.equal(true);
@@ -46,33 +52,42 @@ describe('Date types', () => {
     });
 
     it('should VALIDATE correctly', () => {
-        let rules = [['date'], ['required'], ['max', new Date(2014, 5, 15)]]
+        let rules = [
+            ['date'],
+            ['required'],
+            ['max', new Date(2014, 5, 15)]
+        ]
         let inst = new Rules(rules).toYup();
 
         return Promise.all([
-            new Rules([['date']]).toYup()
-                .isValid(null)
-                .should.eventually.equal(false),
-            new Rules([['date'], ['nullable']]).toYup()
-                .isValid(null)
-                .should.eventually.equal(true),
+            new Rules([
+                ['date']
+            ]).toYup()
+            .isValid(null)
+            .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['nullable']
+            ]).toYup()
+            .isValid(null)
+            .should.eventually.equal(true),
 
             inst
-                .isValid(new Date(2014, 0, 15))
-                .should.eventually.equal(true),
+            .isValid(new Date(2014, 0, 15))
+            .should.eventually.equal(true),
             inst
-                .isValid(new Date(2014, 7, 15))
-                .should.eventually.equal(false),
+            .isValid(new Date(2014, 7, 15))
+            .should.eventually.equal(false),
             inst
-                .isValid('5')
-                .should.eventually.equal(true),
+            .isValid('5')
+            .should.eventually.equal(true),
 
             inst
-                .validate()
-                .should.be.rejected.then(err => {
-                    err.errors.length.should.equal(1);
-                    err.errors[0].should.contain('required');
-                }),
+            .validate()
+            .should.be.rejected.then(err => {
+                err.errors.length.should.equal(1);
+                err.errors[0].should.contain('required');
+            }),
         ]);
     });
 
@@ -81,38 +96,59 @@ describe('Date types', () => {
             invalid = new Date(2014, 1, 15),
             valid = new Date(2014, 5, 15);
         (function() {
-            new Rules([['date'], ['max', 'hello']]).toYup()
+            new Rules([
+                ['date'],
+                ['max', 'hello']
+            ]).toYup()
         }.should.throw(TypeError));
         (function() {
-            new Rules([['date'], ['max', yup.ref('$foo')]]).toYup()
+            new Rules([
+                ['date'],
+                ['max', yup.ref('$foo')]
+            ]).toYup()
         }.should.not.throw());
 
         return Promise.all([
-            new Rules([['date'], ['min', min]]).toYup()
-                .min(min)
-                .isValid(valid)
-                .should.eventually.equal(true),
-            new Rules([['date'], ['min', min]]).toYup()
-                .isValid(invalid)
-                .should.eventually.equal(false),
-            new Rules([['date'], ['min', min]]).toYup()
-                .isValid(null)
-                .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['min', min]
+            ]).toYup()
+            .min(min)
+            .isValid(valid)
+            .should.eventually.equal(true),
+            new Rules([
+                ['date'],
+                ['min', min]
+            ]).toYup()
+            .isValid(invalid)
+            .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['min', min]
+            ]).toYup()
+            .isValid(null)
+            .should.eventually.equal(false),
 
-            new Rules([['date'], ['min', yup.ref('$foo')]]).toYup()
-                .isValid(valid, {
-                    context: {
-                        foo: min
-                    }
-                })
-                .should.eventually.equal(true),
-            new Rules([['date'], ['min', yup.ref('$foo')]]).toYup()
-                .isValid(invalid, {
-                    context: {
-                        foo: min
-                    }
-                })
-                .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['min', yup.ref('$foo')]
+            ]).toYup()
+            .isValid(valid, {
+                context: {
+                    foo: min
+                }
+            })
+            .should.eventually.equal(true),
+            new Rules([
+                ['date'],
+                ['min', yup.ref('$foo')]
+            ]).toYup()
+            .isValid(invalid, {
+                context: {
+                    foo: min
+                }
+            })
+            .should.eventually.equal(false),
         ]);
     });
 
@@ -121,37 +157,59 @@ describe('Date types', () => {
             invalid = new Date(2014, 9, 15),
             valid = new Date(2014, 5, 15);
         (function() {
-            new Rules([['date'], ['max', 'hello']]).toYup()
+            new Rules([
+                ['date'],
+                ['max', 'hello']
+            ]).toYup()
         }.should.throw(TypeError));
         (function() {
-            new Rules([['date'], ['max', yup.ref('$foo')]]).toYup()
+            new Rules([
+                ['date'],
+                ['max', yup.ref('$foo')]
+            ]).toYup()
         }.should.not.throw());
 
         return Promise.all([
-            new Rules([['date'], ['max', max]]).toYup()
-                .isValid(valid)
-                .should.eventually.equal(true),
-            new Rules([['date'], ['max', max]]).toYup()
-                .isValid(invalid)
-                .should.eventually.equal(false),
-            new Rules([['date'], ['max', max], ['nullable', true]]).toYup()
-                .isValid(null)
-                .should.eventually.equal(true),
+            new Rules([
+                ['date'],
+                ['max', max]
+            ]).toYup()
+            .isValid(valid)
+            .should.eventually.equal(true),
+            new Rules([
+                ['date'],
+                ['max', max]
+            ]).toYup()
+            .isValid(invalid)
+            .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['max', max],
+                ['nullable', true]
+            ]).toYup()
+            .isValid(null)
+            .should.eventually.equal(true),
 
-            new Rules([['date'], ['max', yup.ref('$foo')]]).toYup()
-                .isValid(valid, {
-                    context: {
-                        foo: max
-                    }
-                })
-                .should.eventually.equal(true),
-            new Rules([['date'], ['max', yup.ref('$foo')]]).toYup()
-                .isValid(invalid, {
-                    context: {
-                        foo: max
-                    }
-                })
-                .should.eventually.equal(false),
+            new Rules([
+                ['date'],
+                ['max', yup.ref('$foo')]
+            ]).toYup()
+            .isValid(valid, {
+                context: {
+                    foo: max
+                }
+            })
+            .should.eventually.equal(true),
+            new Rules([
+                ['date'],
+                ['max', yup.ref('$foo')]
+            ]).toYup()
+            .isValid(invalid, {
+                context: {
+                    foo: max
+                }
+            })
+            .should.eventually.equal(false),
         ]);
     });
 })

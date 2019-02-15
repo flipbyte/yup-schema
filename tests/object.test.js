@@ -6,25 +6,58 @@ describe('Object types', () => {
         let inst;
 
         beforeEach(() => {
-            inst = new Rules([['object', {
-                num: [['number']],
-                str: [['string']],
-                arr: [['array'], ['of', [['number']]]],
-                dte: [['date']],
-                nested: [['object'], ['shape', {
-                    str: [['string']]
-                }]],
-                arrNested: [['array'], ['of', [['object'], ['shape', {
-                    num: [['number']]
-                }]]]],
-                stripped: [['string'], ['strip']]
-            }]]).toYup()
+            inst = new Rules([
+                ['object', {
+                    num: [
+                        ['number']
+                    ],
+                    str: [
+                        ['string']
+                    ],
+                    arr: [
+                        ['array'],
+                        ['of', [
+                            ['number']
+                        ]]
+                    ],
+                    dte: [
+                        ['date']
+                    ],
+                    nested: [
+                        ['object'],
+                        ['shape', {
+                            str: [
+                                ['string']
+                            ]
+                        }]
+                    ],
+                    arrNested: [
+                        ['array'],
+                        ['of', [
+                            ['object'],
+                            ['shape', {
+                                num: [
+                                    ['number']
+                                ]
+                            }]
+                        ]]
+                    ],
+                    stripped: [
+                        ['string'],
+                        ['strip']
+                    ]
+                }]
+            ]).toYup()
         });
 
         it('should parse json strings', () => {
-            new Rules([['object', {
-                hello: [['number']]
-            }]]).toYup()
+            new Rules([
+                    ['object', {
+                        hello: [
+                            ['number']
+                        ]
+                    }]
+                ]).toYup()
                 .cast('{ "hello": "5" }')
                 .should.eql({
                     hello: 5,
@@ -32,7 +65,9 @@ describe('Object types', () => {
         });
 
         it('should return null for failed casts', () => {
-            expect(new Rules([['object']]).toYup().cast('dfhdfh', {
+            expect(new Rules([
+                ['object']
+            ]).toYup().cast('dfhdfh', {
                 assert: false
             })).to.equal(null);
         });
@@ -97,19 +132,52 @@ describe('Object types', () => {
         let inst, obj;
 
         beforeEach(() => {
-            inst = new Rules([['object', {
-                num: [['number'], ['max', 4]],
-                str: [['string']],
-                arr: [['array'], ['of', [['number'], ['max', 6]]]],
-                dte: [['date']],
-                nested: [['object'], ['shape', {
-                    str: [['string'], ['min', 3]]
-                }], ['required']],
-                arrNested: [['array'], ['of', [['object'], ['shape', {
-                    num: [['number']]
-                }]]]],
-                stripped: [['string'], ['strip']]
-            }]]).toYup()
+            inst = new Rules([
+                ['object', {
+                    num: [
+                        ['number'],
+                        ['max', 4]
+                    ],
+                    str: [
+                        ['string']
+                    ],
+                    arr: [
+                        ['array'],
+                        ['of', [
+                            ['number'],
+                            ['max', 6]
+                        ]]
+                    ],
+                    dte: [
+                        ['date']
+                    ],
+                    nested: [
+                        ['object'],
+                        ['shape', {
+                            str: [
+                                ['string'],
+                                ['min', 3]
+                            ]
+                        }],
+                        ['required']
+                    ],
+                    arrNested: [
+                        ['array'],
+                        ['of', [
+                            ['object'],
+                            ['shape', {
+                                num: [
+                                    ['number']
+                                ]
+                            }]
+                        ]]
+                    ],
+                    stripped: [
+                        ['string'],
+                        ['strip']
+                    ]
+                }]
+            ]).toYup()
 
             obj = {
                 num: '4',
@@ -147,9 +215,13 @@ describe('Object types', () => {
         it('should prevent recursive casting', async () => {
             let castSpy = sinon.spy(yup.string.prototype, '_cast');
 
-            inst = new Rules([['object', {
-                field: [['string']]
-            }]]).toYup()
+            inst = new Rules([
+                ['object', {
+                    field: [
+                        ['string']
+                    ]
+                }]
+            ]).toYup()
 
             let value = await inst.validate({
                 field: 5
@@ -163,9 +235,14 @@ describe('Object types', () => {
         });
 
         it('should respect strict for nested values', async () => {
-            inst = new Rules([['object', {
-                field: [['string']]
-            }], ['strict']]).toYup()
+            inst = new Rules([
+                ['object', {
+                    field: [
+                        ['string']
+                    ]
+                }],
+                ['strict']
+            ]).toYup()
 
             let err = await inst.validate({
                 field: 5
@@ -175,9 +252,14 @@ describe('Object types', () => {
         });
 
         it('should respect child schema with strict()', async () => {
-            inst = new Rules([['object', {
-                field: [['number'], ['strict']]
-            }]]).toYup()
+            inst = new Rules([
+                ['object', {
+                    field: [
+                        ['number'],
+                        ['strict']
+                    ]
+                }]
+            ]).toYup()
 
             let err = await inst.validate({
                 field: '5'
@@ -191,13 +273,25 @@ describe('Object types', () => {
                 field: 5
             });
 
-            new Rules([['object', {
-                port: [['number'], ['strict'], ['integer']]
-            }]]).toYup()
+            new Rules([
+                ['object', {
+                    port: [
+                        ['number'],
+                        ['strict'],
+                        ['integer']
+                    ]
+                }]
+            ]).toYup()
 
-            err = await new Rules([['object', {
-                port: [['number'], ['strict'], ['integer']]
-            }]]).toYup()
+            err = await new Rules([
+                    ['object', {
+                        port: [
+                            ['number'],
+                            ['strict'],
+                            ['integer']
+                        ]
+                    }]
+                ]).toYup()
                 .validate({
                     port: 'asdad'
                 })
@@ -205,10 +299,17 @@ describe('Object types', () => {
         });
 
         it('should handle custom validation', async () => {
-            let inst = new Rules([['object'], ['shape', {
-                prop: [['mixed']],
-                other: [['mixed']]
-            }]]).toYup()
+            let inst = new Rules([
+                    ['object'],
+                    ['shape', {
+                        prop: [
+                            ['mixed']
+                        ],
+                        other: [
+                            ['mixed']
+                        ]
+                    }]
+                ]).toYup()
                 .test('test', '${path} oops', () => false);
 
             let err = await inst.validate({}).should.be.rejected;
@@ -256,11 +357,17 @@ describe('Object types', () => {
     });
 
     it('should pass options to children', function() {
-        new Rules([['object', {
-            names: [['object', {
-                first: [['string']]
-            }]]
-        }]]).toYup()
+        new Rules([
+                ['object', {
+                    names: [
+                        ['object', {
+                            first: [
+                                ['string']
+                            ]
+                        }]
+                    ]
+                }]
+            ]).toYup()
             .cast({
                 extra: true,
                 names: {
@@ -278,9 +385,13 @@ describe('Object types', () => {
     });
 
     it('should call shape with constructed with an arg', () => {
-        let inst = new Rules([['object', {
-            prop: [['mixed']]
-        }]]).toYup();
+        let inst = new Rules([
+            ['object', {
+                prop: [
+                    ['mixed']
+                ]
+            }]
+        ]).toYup();
 
         expect(inst.fields.prop).to.exist;
     });
@@ -289,11 +400,18 @@ describe('Object types', () => {
         let objSchema;
 
         beforeEach(() => {
-            objSchema = new Rules([['object', {
-                nest: [['object', {
-                    str: [['string'], ['default', 'hi']]
-                }]]
-            }]]).toYup()
+            objSchema = new Rules([
+                ['object', {
+                    nest: [
+                        ['object', {
+                            str: [
+                                ['string'],
+                                ['default', 'hi']
+                            ]
+                        }]
+                    ]
+                }]
+            ]).toYup()
         });
 
         it('should expand objects by default', () => {
@@ -315,12 +433,20 @@ describe('Object types', () => {
         });
 
         it('should add empty keys when sub schema has no default', () => {
-            new Rules([['object', {
-                str: [['string']],
-                nest: [['object', {
-                    str: [['string']]
-                }]]
-            }]]).toYup()
+            new Rules([
+                    ['object', {
+                        str: [
+                            ['string']
+                        ],
+                        nest: [
+                            ['object', {
+                                str: [
+                                    ['string']
+                                ]
+                            }]
+                        ]
+                    }]
+                ]).toYup()
                 .default()
                 .should.eql({
                     nest: {
@@ -331,14 +457,24 @@ describe('Object types', () => {
         });
 
         it('should create defaults for missing object fields', () => {
-            new Rules([['object', {
-                prop: [['mixed']],
-                other: [['object', {
-                    x: [['object', {
-                        b: [['string']]
-                    }]]
-                }]]
-            }]]).toYup()
+            new Rules([
+                    ['object', {
+                        prop: [
+                            ['mixed']
+                        ],
+                        other: [
+                            ['object', {
+                                x: [
+                                    ['object', {
+                                        b: [
+                                            ['string']
+                                        ]
+                                    }]
+                                ]
+                            }]
+                        ]
+                    }]
+                ]).toYup()
                 .cast({
                     prop: 'foo'
                 })
@@ -354,52 +490,62 @@ describe('Object types', () => {
     });
 
     it('should handle empty keys', () => {
-        let inst = new Rules([['object', {
-            prop: [['mixed']]
-        }]]).toYup();
+        let inst = new Rules([
+            ['object', {
+                prop: [
+                    ['mixed']
+                ]
+            }]
+        ]).toYup();
 
         return Promise.all([
             inst
-                .isValid({})
-                .should.eventually.equal(true),
+            .isValid({})
+            .should.eventually.equal(true),
 
             inst
-                .shape({
-                    prop: yup.mixed().required()
-                })
-                .isValid({})
-                .should.eventually.equal(false),
+            .shape({
+                prop: yup.mixed().required()
+            })
+            .isValid({})
+            .should.eventually.equal(false),
         ]);
     });
 
     it('should work with noUnknown', () => {
-        let inst = new Rules([['object', {
-            prop: [['mixed']],
-            other: [['mixed']]
-        }]]).toYup();
+        let inst = new Rules([
+            ['object', {
+                prop: [
+                    ['mixed']
+                ],
+                other: [
+                    ['mixed']
+                ]
+            }]
+        ]).toYup();
 
         return Promise.all([
             inst
-                .noUnknown('hi')
-                .validate({
-                    extra: 'field'
-                }, {
-                    strict: true
-                })
-                .should.be.rejected.then(err => {
-                    err.errors[0].should.equal('hi');
-                }),
+            .noUnknown('hi')
+            .validate({
+                extra: 'field'
+            }, {
+                strict: true
+            })
+            .should.be.rejected.then(err => {
+                err.errors[0].should.equal('hi');
+            }),
 
             inst
-                .noUnknown()
-                .validate({
-                    extra: 'field'
-                }, {
-                    strict: true
-                })
-                .should.be.rejected.then(err => {
-                    err.errors[0].should.be.a('string');
-                }),
+            .noUnknown()
+            .validate({
+                extra: 'field'
+            }, {
+                strict: true
+            })
+            .should.be.rejected.then(err => {
+                err.errors[0].should.be.a('string');
+            }),
         ]);
     });
 
@@ -417,10 +563,19 @@ describe('Object types', () => {
     // });
 
     it('should strip specific fields', () => {
-        let inst = new Rules([['object'], ['shape', {
-            prop: [['mixed'], ['strip', false]],
-            other: [['mixed'], ['strip']]
-        }]]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                prop: [
+                    ['mixed'],
+                    ['strip', false]
+                ],
+                other: [
+                    ['mixed'],
+                    ['strip']
+                ]
+            }]
+        ]).toYup()
 
         inst.cast({
             other: 'boo',
@@ -431,13 +586,21 @@ describe('Object types', () => {
     });
 
     it('should handle field striping with `when`', () => {
-        let inst = new Rules([['object'], ['shape', {
-            other: [['bool']],
-            prop: [['mixed'], ['when', 'other', {
-                is: true,
-                then: s => s.strip()
-            }]],
-        }]]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                other: [
+                    ['bool']
+                ],
+                prop: [
+                    ['mixed'],
+                    ['when', 'other', {
+                        is: true,
+                        then: s => s.strip()
+                    }]
+                ],
+            }]
+        ]).toYup()
 
         inst.cast({
             other: true,
@@ -448,14 +611,20 @@ describe('Object types', () => {
     });
 
     it('should allow refs', async function() {
-        let schema = new Rules([['object', {
-            quz: yup.ref('baz'),
-            baz: yup.ref('foo.bar'),
-            foo: [['object', {
-                bar: [['string']]
-            }]],
-            x: yup.ref('$x')
-        }]]).toYup()
+        let schema = new Rules([
+            ['object', {
+                quz: yup.ref('baz'),
+                baz: yup.ref('foo.bar'),
+                foo: [
+                    ['object', {
+                        bar: [
+                            ['string']
+                        ]
+                    }]
+                ],
+                x: yup.ref('$x')
+            }]
+        ]).toYup()
 
         let value = await schema.validate({
             foo: {
@@ -479,10 +648,15 @@ describe('Object types', () => {
     });
 
     it('should allow refs with abortEarly false', async () => {
-        let schema = new Rules([['object'], ['shape', {
-            field: [['string']],
-            dupField: yup.ref('field')
-        }]]).toYup()
+        let schema = new Rules([
+            ['object'],
+            ['shape', {
+                field: [
+                    ['string']
+                ],
+                dupField: yup.ref('field')
+            }]
+        ]).toYup()
 
         let actual = await schema
             .validate({
@@ -500,21 +674,35 @@ describe('Object types', () => {
 
     describe('lazy evaluation', () => {
         let types = {
-            string: new Rules([['string']]).toYup(),
-            number: new Rules([['number']]).toYup(),
+            string: new Rules([
+                ['string']
+            ]).toYup(),
+            number: new Rules([
+                ['number']
+            ]).toYup(),
         };
 
         it('should be cast-able', () => {
-            let inst = new Rules([['lazy', () => new Rules([['number']]).toYup()]]).toYup()
+            let inst = new Rules([
+                ['lazy', () => new Rules([
+                    ['number']
+                ]).toYup()]
+            ]).toYup()
 
             inst.cast.should.be.a('function');
             inst.cast('4').should.equal(4);
         });
 
         it('should be validatable', async () => {
-            let inst = new Rules([['lazy', () =>
-                new Rules([['string'], ['trim', 'trim me!'], ['strict']]).toYup()
-            ]]).toYup()
+            let inst = new Rules([
+                ['lazy', () =>
+                    new Rules([
+                        ['string'],
+                        ['trim', 'trim me!'],
+                        ['strict']
+                    ]).toYup()
+                ]
+            ]).toYup()
 
             inst.validate.should.be.a('function');
 
@@ -526,25 +714,43 @@ describe('Object types', () => {
         });
 
         it('should resolve to schema', () => {
-            let inst = new Rules([['object', {
-                nested: [['lazy', () => inst]],
-                x: [['object', {
-                    y: [['lazy', () => inst]]
-                }]]
-            }]]).toYup();
+            let inst = new Rules([
+                ['object', {
+                    nested: [
+                        ['lazy', () => inst]
+                    ],
+                    x: [
+                        ['object', {
+                            y: [
+                                ['lazy', () => inst]
+                            ]
+                        }]
+                    ]
+                }]
+            ]).toYup();
 
-            new Rules([['reach', inst, 'nested']]).toYup().should.equal(inst);
-            new Rules([['reach', inst, 'x.y']]).toYup().should.equal(inst);
+            new Rules([
+                ['reach', inst, 'nested']
+            ]).toYup().should.equal(inst);
+            new Rules([
+                ['reach', inst, 'x.y']
+            ]).toYup().should.equal(inst);
         });
 
         it('should be passed the value', done => {
-            let inst = new Rules([['object', {
-                nested: [['lazy', value => {
-                    value.should.equal('foo');
-                    done();
-                    return new Rules([['string']]).toYup();
-                }]],
-            }]]).toYup();
+            let inst = new Rules([
+                ['object', {
+                    nested: [
+                        ['lazy', value => {
+                            value.should.equal('foo');
+                            done();
+                            return new Rules([
+                                ['string']
+                            ]).toYup();
+                        }]
+                    ],
+                }]
+            ]).toYup();
 
             inst.cast({
                 nested: 'foo'
@@ -553,11 +759,15 @@ describe('Object types', () => {
 
         it('should be passed the options', done => {
             let opts = {};
-            let inst = new Rules([['lazy', (_, options) => {
-                options.should.equal(opts);
-                done();
-                return new Rules([['string']]).toYup();
-            }]]).toYup()
+            let inst = new Rules([
+                ['lazy', (_, options) => {
+                    options.should.equal(opts);
+                    done();
+                    return new Rules([
+                        ['string']
+                    ]).toYup();
+                }]
+            ]).toYup()
 
             inst.cast({
                 nested: 'foo'
@@ -565,15 +775,25 @@ describe('Object types', () => {
         });
 
         it('should always return a schema', () => {
-            (() => new Rules([['lazy', () => {}]]).toYup()
+            (() => new Rules([
+                    ['lazy', () => {}]
+                ]).toYup()
                 .cast()).should.throw(/must return a valid schema/);
         });
 
         it('should set the correct path', async () => {
-            let inst = new Rules([['object', {
-                str: [['string'], ['required'], ['nullable']],
-                nested: [['lazy', () => inst.default(undefined)]]
-            }]]).toYup()
+            let inst = new Rules([
+                ['object', {
+                    str: [
+                        ['string'],
+                        ['required'],
+                        ['nullable']
+                    ],
+                    nested: [
+                        ['lazy', () => inst.default(undefined)]
+                    ]
+                }]
+            ]).toYup()
 
             let value = {
                 nested: {
@@ -593,10 +813,21 @@ describe('Object types', () => {
         });
 
         it('should resolve array sub types', async () => {
-            let inst = new Rules([['object', {
-                str: [['string'], ['required'], ['nullable']],
-                nested: [['array'], ['of', [['lazy', () => inst.default(undefined)]]]]
-            }]]).toYup()
+            let inst = new Rules([
+                ['object', {
+                    str: [
+                        ['string'],
+                        ['required'],
+                        ['nullable']
+                    ],
+                    nested: [
+                        ['array'],
+                        ['of', [
+                            ['lazy', () => inst.default(undefined)]
+                        ]]
+                    ]
+                }]
+            ]).toYup()
 
             let value = {
                 nested: [{
@@ -616,7 +847,12 @@ describe('Object types', () => {
         });
 
         it('should resolve for each array item', async () => {
-            let inst = new Rules([['array'], ['of', [['lazy', value => types[typeof value]]]]]).toYup()
+            let inst = new Rules([
+                ['array'],
+                ['of', [
+                    ['lazy', value => types[typeof value]]
+                ]]
+            ]).toYup()
 
             let val = await inst.validate(['john', 4], {
                 strict: true
@@ -627,58 +863,77 @@ describe('Object types', () => {
     });
 
     it('should respect abortEarly', () => {
-        let inst = new Rules([['object', {
-            nest: [['object', {
-                str: [['string'], ['required']]
-            }], ['test', 'name', 'oops', () => false]]
-        }]]).toYup()
+        let inst = new Rules([
+            ['object', {
+                nest: [
+                    ['object', {
+                        str: [
+                            ['string'],
+                            ['required']
+                        ]
+                    }],
+                    ['test', 'name', 'oops', () => false]
+                ]
+            }]
+        ]).toYup()
 
         return Promise.all([
             inst
-                .validate({
+            .validate({
+                nest: {
+                    str: ''
+                }
+            })
+            .should.be.rejected
+            .then(err => {
+                err.value.should.eql({
                     nest: {
                         str: ''
                     }
-                })
-                .should.be.rejected
-                .then(err => {
-                    err.value.should.eql({
-                        nest: {
-                            str: ''
-                        }
-                    });
-                    err.errors.length.should.equal(1);
-                    err.errors.should.eql(['oops']);
+                });
+                err.errors.length.should.equal(1);
+                err.errors.should.eql(['oops']);
 
-                    err.path.should.equal('nest');
-                }),
+                err.path.should.equal('nest');
+            }),
 
             inst
-                .validate({
+            .validate({
+                nest: {
+                    str: ''
+                }
+            }, {
+                abortEarly: false
+            })
+            .should.be.rejected
+            .then(err => {
+                err.value.should.eql({
                     nest: {
                         str: ''
                     }
-                }, {
-                    abortEarly: false
-                })
-                .should.be.rejected
-                .then(err => {
-                    err.value.should.eql({
-                        nest: {
-                            str: ''
-                        }
-                    });
-                    err.errors.length.should.equal(2);
-                    err.errors.should.eql(['nest.str is a required field', 'oops']);
-                }),
+                });
+                err.errors.length.should.equal(2);
+                err.errors.should.eql(['nest.str is a required field', 'oops']);
+            }),
         ]);
     });
 
     it('should sort errors by insertion order', async () => {
-        let inst = new Rules([['object', {
-            foo: [['string'], ['when', 'bar', () => new Rules([['string'], ['min', 5]]).toYup()]],
-            bar: [['string'], ['required']]
-        }]]).toYup()
+        let inst = new Rules([
+            ['object', {
+                foo: [
+                    ['string'],
+                    ['when', 'bar', () => new Rules([
+                        ['string'],
+                        ['min', 5]
+                    ]).toYup()]
+                ],
+                bar: [
+                    ['string'],
+                    ['required']
+                ]
+            }]
+        ]).toYup()
 
         let err = await inst
             .validate({
@@ -695,11 +950,19 @@ describe('Object types', () => {
     });
 
     it('should respect recursive', () => {
-        let inst = new Rules([['object', {
-            nest: [['object', {
-                str: [['string'], ['required']]
-            }]]
-        }], ['test', 'name', 'oops', () => false]]).toYup()
+        let inst = new Rules([
+            ['object', {
+                nest: [
+                    ['object', {
+                        str: [
+                            ['string'],
+                            ['required']
+                        ]
+                    }]
+                ]
+            }],
+            ['test', 'name', 'oops', () => false]
+        ]).toYup()
 
         let val = {
             nest: {
@@ -709,30 +972,39 @@ describe('Object types', () => {
 
         return Promise.all([
             inst
-                .validate(val, {
-                    abortEarly: false
-                })
-                .should.be.rejected.then(err => {
-                    err.errors.length.should.equal(2);
-                }),
+            .validate(val, {
+                abortEarly: false
+            })
+            .should.be.rejected.then(err => {
+                err.errors.length.should.equal(2);
+            }),
 
             inst
-                .validate(val, {
-                    abortEarly: false,
-                    recursive: false
-                })
-                .should.be.rejected.then(err => {
-                    err.errors.length.should.equal(1);
-                    err.errors.should.eql(['oops']);
-                }),
+            .validate(val, {
+                abortEarly: false,
+                recursive: false
+            })
+            .should.be.rejected.then(err => {
+                err.errors.length.should.equal(1);
+                err.errors.should.eql(['oops']);
+            }),
         ]);
     });
 
     it('should alias or move keys', () => {
-        let inst = new Rules([['object'], ['shape', {
-            myProp: [['mixed']],
-            Other: [['mixed']]
-        }], ['from', 'prop', 'myProp'], ['from', 'other', 'Other', true]]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                myProp: [
+                    ['mixed']
+                ],
+                Other: [
+                    ['mixed']
+                ]
+            }],
+            ['from', 'prop', 'myProp'],
+            ['from', 'other', 'Other', true]
+        ]).toYup()
 
         inst
             .cast({
@@ -747,11 +1019,18 @@ describe('Object types', () => {
     });
 
     it('should alias nested keys', () => {
-        let inst = new Rules([['object', {
-            foo: [['object', {
-                bar: [['string']]
-            }]]
-        }], ['from', 'foo.bar', 'foobar', true]]).toYup()
+        let inst = new Rules([
+            ['object', {
+                foo: [
+                    ['object', {
+                        bar: [
+                            ['string']
+                        ]
+                    }]
+                ]
+            }],
+            ['from', 'foo.bar', 'foobar', true]
+        ]).toYup()
 
         inst
             .cast({
@@ -768,9 +1047,15 @@ describe('Object types', () => {
     });
 
     it('should not move keys when it does not exist', () => {
-        let inst = new Rules([['object'], ['shape', {
-            myProp: [['mixed']]
-        }], ['from', 'prop', 'myProp']]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                myProp: [
+                    ['mixed']
+                ]
+            }],
+            ['from', 'prop', 'myProp']
+        ]).toYup()
 
         inst.cast({
             myProp: 5
@@ -787,201 +1072,282 @@ describe('Object types', () => {
     });
 
     it('should handle conditionals', () => {
-        let inst = new Rules([['object'], ['shape', {
-            noteDate: [['number'], ['when', 'stats.isBig', {
-                is: true,
-                then: [['number'], ['min', 5]]
-            }], ['when', 'other', function(v) {
-                if (v === 4) return this.max(6)
-            }]],
-            stats: [['object', {
-                isBig: [['bool']]
-            }]],
-            other: [['number'], ['min', 1], ['when', 'stats', {
-                is: 5,
-                then: [['number']]
-            }]]
-        }]]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                noteDate: [
+                    ['number'],
+                    ['when', 'stats.isBig', {
+                        is: true,
+                        then: [
+                            ['number'],
+                            ['min', 5]
+                        ]
+                    }],
+                    ['when', 'other', function(v) {
+                        if (v === 4) return this.max(6)
+                    }]
+                ],
+                stats: [
+                    ['object', {
+                        isBig: [
+                            ['bool']
+                        ]
+                    }]
+                ],
+                other: [
+                    ['number'],
+                    ['min', 1],
+                    ['when', 'stats', {
+                        is: 5,
+                        then: [
+                            ['number']
+                        ]
+                    }]
+                ]
+            }]
+        ]).toYup()
 
         return Promise.all([
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    rand: 5,
-                    noteDate: 7,
-                    other: 4
-                })
-                .should.eventually.equal(false),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                rand: 5,
+                noteDate: 7,
+                other: 4
+            })
+            .should.eventually.equal(false),
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    noteDate: 1,
-                    other: 4
-                })
-                .should.eventually.equal(false),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                noteDate: 1,
+                other: 4
+            })
+            .should.eventually.equal(false),
 
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    noteDate: 7,
-                    other: 6
-                })
-                .should.eventually.equal(true),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                noteDate: 7,
+                other: 6
+            })
+            .should.eventually.equal(true),
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    noteDate: 7,
-                    other: 4
-                })
-                .should.eventually.equal(false),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                noteDate: 7,
+                other: 4
+            })
+            .should.eventually.equal(false),
 
             inst
-                .isValid({
-                    stats: {
-                        isBig: false
-                    },
-                    noteDate: 4,
-                    other: 4
-                })
-                .should.eventually.equal(true),
+            .isValid({
+                stats: {
+                    isBig: false
+                },
+                noteDate: 4,
+                other: 4
+            })
+            .should.eventually.equal(true),
 
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    noteDate: 1,
-                    other: 4
-                })
-                .should.eventually.equal(false),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                noteDate: 1,
+                other: 4
+            })
+            .should.eventually.equal(false),
             inst
-                .isValid({
-                    stats: {
-                        isBig: true
-                    },
-                    noteDate: 6,
-                    other: 4
-                })
-                .should.eventually.equal(true),
+            .isValid({
+                stats: {
+                    isBig: true
+                },
+                noteDate: 6,
+                other: 4
+            })
+            .should.eventually.equal(true),
         ]);
     });
 
     it('should allow opt out of topo sort on specific edges', () => {
         (function() {
-            new Rules([['object'], ['shape', {
-                orgID: [['number'], ['when', 'location', function(v) {
-                    if (v == null) return this.required();
-                }]],
-                location: [['string'], ['when', 'orgID', function(v) {
-                    if (v == null) return this.required();
-                }]],
-            }]]).toYup()
+            new Rules([
+                ['object'],
+                ['shape', {
+                    orgID: [
+                        ['number'],
+                        ['when', 'location', function(v) {
+                            if (v == null) return this.required();
+                        }]
+                    ],
+                    location: [
+                        ['string'],
+                        ['when', 'orgID', function(v) {
+                            if (v == null) return this.required();
+                        }]
+                    ],
+                }]
+            ]).toYup()
         }.should.throw('Cyclic dependency, node was:"location"'));
         (function() {
-            new Rules([['object'], ['shape', {
-                orgID: [['number'], ['when', 'location', function(v) {
-                    if (v == null) return this.required();
-                }]],
-                location: [['string'], ['when', 'orgID', function(v) {
-                    if (v == null) return this.required();
-                }]],
-            }, [['location', 'orgID']]]]).toYup()
+            new Rules([
+                ['object'],
+                ['shape', {
+                        orgID: [
+                            ['number'],
+                            ['when', 'location', function(v) {
+                                if (v == null) return this.required();
+                            }]
+                        ],
+                        location: [
+                            ['string'],
+                            ['when', 'orgID', function(v) {
+                                if (v == null) return this.required();
+                            }]
+                        ],
+                    },
+                    [
+                        ['location', 'orgID']
+                    ]
+                ]
+            ]).toYup()
         }.should.not.throw());
     });
 
     it('should use correct default when concating', () => {
-        let inst = new Rules([['object', {
-            other: [['bool']]
-        }], ['default', undefined]]).toYup()
+        let inst = new Rules([
+            ['object', {
+                other: [
+                    ['bool']
+                ]
+            }],
+            ['default', undefined]
+        ]).toYup()
 
-        expect(inst.concat(new Rules([['object']]).toYup()).default()).to.equal(undefined);
+        expect(inst.concat(new Rules([
+            ['object']
+        ]).toYup()).default()).to.equal(undefined);
 
-        expect(inst.concat(new Rules([['object'], ['default', {}]]).toYup()).default()).to.eql({});
+        expect(inst.concat(new Rules([
+            ['object'],
+            ['default', {}]
+        ]).toYup()).default()).to.eql({});
     });
 
     it('should handle nested conditionals', () => {
-        let countSchema = new Rules([['number'], ['when', 'isBig', {
-            is: true,
-            then: [['number'], ['min', 5]]
-        }]]).toYup();
-
-        let inst = new Rules([['object', {
-            other: [['bool']],
-            stats: [['object', {
-                isBig: [['bool']],
-                count: countSchema,
-            }], ['default', undefined], ['when', 'other', {
+        let countSchema = new Rules([
+            ['number'],
+            ['when', 'isBig', {
                 is: true,
-                then: [['object'], ['required']]
-            }]]
-        }]]).toYup()
+                then: [
+                    ['number'],
+                    ['min', 5]
+                ]
+            }]
+        ]).toYup();
+
+        let inst = new Rules([
+            ['object', {
+                other: [
+                    ['bool']
+                ],
+                stats: [
+                    ['object', {
+                        isBig: [
+                            ['bool']
+                        ],
+                        count: countSchema,
+                    }],
+                    ['default', undefined],
+                    ['when', 'other', {
+                        is: true,
+                        then: [
+                            ['object'],
+                            ['required']
+                        ]
+                    }]
+                ]
+            }]
+        ]).toYup()
 
         return Promise.all([
             inst
-                .validate({
-                    stats: undefined,
-                    other: true
-                })
-                .should.be.rejected.then(err => {
-                    err.errors[0].should.contain('required');
-                }),
+            .validate({
+                stats: undefined,
+                other: true
+            })
+            .should.be.rejected.then(err => {
+                err.errors[0].should.contain('required');
+            }),
 
             inst
-                .validate({
-                    stats: {
-                        isBig: true,
-                        count: 3
-                    },
-                    other: true
-                })
-                .should.be.rejected.then(err => {
-                    err.errors[0].should.contain('must be greater than or equal to 5');
-                }),
+            .validate({
+                stats: {
+                    isBig: true,
+                    count: 3
+                },
+                other: true
+            })
+            .should.be.rejected.then(err => {
+                err.errors[0].should.contain('must be greater than or equal to 5');
+            }),
 
             inst
-                .validate({
+            .validate({
+                stats: {
+                    isBig: true,
+                    count: 10
+                },
+                other: true
+            })
+            .should.be.fulfilled.then(value => {
+                value.should.deep.equal({
                     stats: {
                         isBig: true,
                         count: 10
                     },
-                    other: true
-                })
-                .should.be.fulfilled.then(value => {
-                    value.should.deep.equal({
-                        stats: {
-                            isBig: true,
-                            count: 10
-                        },
-                        other: true,
-                    });
-                }),
+                    other: true,
+                });
+            }),
 
             countSchema
-                .validate(10, {
-                    context: {
-                        isBig: true
-                    }
-                })
-                .should.be.fulfilled.then(value => {
-                    value.should.deep.equal(10);
-                }),
+            .validate(10, {
+                context: {
+                    isBig: true
+                }
+            })
+            .should.be.fulfilled.then(value => {
+                value.should.deep.equal(10);
+            }),
         ]);
     });
 
     it('should camelCase keys', () => {
-        let inst = new Rules([['object'], ['shape', {
-            conStat: [['number']],
-            caseStatus: [['number']],
-            hiJohn: [['number']]
-        }], ['camelCase']]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                conStat: [
+                    ['number']
+                ],
+                caseStatus: [
+                    ['number']
+                ],
+                hiJohn: [
+                    ['number']
+                ]
+            }],
+            ['camelCase']
+        ]).toYup()
 
         inst
             .cast({
@@ -1008,11 +1374,21 @@ describe('Object types', () => {
     // // })
     //
     it('should CONSTANT_CASE keys', () => {
-        let inst = new Rules([['object'], ['shape', {
-            CON_STAT: [['number']],
-            CASE_STATUS: [['number']],
-            HI_JOHN: [['number']]
-        }], ['constantCase']]).toYup()
+        let inst = new Rules([
+            ['object'],
+            ['shape', {
+                CON_STAT: [
+                    ['number']
+                ],
+                CASE_STATUS: [
+                    ['number']
+                ],
+                HI_JOHN: [
+                    ['number']
+                ]
+            }],
+            ['constantCase']
+        ]).toYup()
 
         inst
             .cast({
@@ -1030,9 +1406,12 @@ describe('Object types', () => {
     });
 
     xit('should handle invalid shapes better', async () => {
-        var schema = new Rules([['object'], ['shape', {
-            permissions: undefined
-        }]]).toYup();
+        var schema = new Rules([
+            ['object'],
+            ['shape', {
+                permissions: undefined
+            }]
+        ]).toYup();
 
         expect(
             await schema.isValid({
