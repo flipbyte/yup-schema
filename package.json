@@ -2,6 +2,13 @@
     "name": "@flipbyte/yup-schema",
     "version": "0.1.2",
     "description": "Easily define your yup rules using arrays instead of yup object",
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "files": [
+        "es",
+        "lib",
+        "umd"
+    ],
     "scripts": {
         "build": "nwb build-web-module",
         "clean": "nwb clean-module",
@@ -10,7 +17,6 @@
         "test:coverage": "nwb test --coverage",
         "test:watch": "nwb test --server"
     },
-
     "dependencies": {
         "yup": "^0.26.10"
     },
@@ -20,6 +26,7 @@
     },
     "author": "",
     "license": "MIT",
+    "homepage": "",
     "repository": {
         "type": "git",
         "url": "https://github.com/flipbyte/yup-schema.git"
