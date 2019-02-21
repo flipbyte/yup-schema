@@ -52,5 +52,5 @@ The MIT License (MIT)
 [license-badge]: https://badgen.now.sh/badge/license/MIT
 [license]: ./LICENSE
 
-[codacy-badge]: https://api.codacy.com/project/badge/Grade/18e71277b7e94ad9aca885b5ba3d890c
-[codacy]: https://www.codacy.com/app/easeq/yup-schema?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=flipbyte/yup-schema&amp;utm_campaign=Badge_Grade
+[codacy-badge]: https://api.codacy.com/project/badge/Grade/1352a47a773b4d49b3b3d6956417ba2a
+[codacy]: https://www.codacy.com/app/flipbyte/yup-schema?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=flipbyte/yup-schema&amp;utm_campaign=Badge_Grade
