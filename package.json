@@ -26,6 +26,14 @@
     },
     "author": "",
     "license": "MIT",
+    "keywords": [
+        "yup-schema",
+        "yup-json",
+        "yup-array",
+        "yup-object",
+        "yup",
+        "yup-validation"
+    ],
     "homepage": "",
     "repository": {
         "type": "git",
