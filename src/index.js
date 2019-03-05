@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 export default class Rules {
     constructor(rules) {
-        this.rules = rules
+        this.rules = [...rules];
     }
 
     isRule(arg) {
@@ -14,42 +14,37 @@ export default class Rules {
     }
 
     handleObject(obj) {
+        var handledObj = {};
         for (var key in obj) {
-            if (!obj.hasOwnProperty(key)) {
-                continue;
-            }
-
-            obj[key] = this.isRule(obj[key]) ? new Rules(obj[key]).toYup() : obj[key]
+            handledObj[key] = obj.hasOwnProperty(key) && this.isRule(obj[key])
+                ? new Rules(obj[key]).toYup() : obj[key]
         }
 
-        return obj
+        return handledObj
     }
 
     processArgs(args) {
-        return args.map(arg => {
-            if (typeof arg === 'object' && !Array.isArray(arg)) {
-                return this.handleObject(arg)
+        return args.reduce((result, arg) => {
+            if (typeof arg === 'object' && arg.constructor === Object && !Array.isArray(arg)) {
+                return [ ...result, this.handleObject(arg)];
             } else if (this.isRule(arg)) {
-                return new Rules(arg).toYup()
+                return [ ...result, new Rules(arg).toYup()];
             }
 
-            return arg;
-        })
+            return [ ...result, arg ];
+        }, [])
     }
 
     toYup() {
-        var rules = [...this.rules];
-        var ruleType = rules.shift();
-        let type = ruleType.shift()
+        var [[type, ...typeArgs], ...rules] = this.rules;
         if (!type || !yup[type]) {
             throw new Error('Type ' + type + ' does not exist');
         }
 
-        let ruleTypeArgs = this.processArgs(ruleType);
+        let ruleTypeArgs = this.processArgs(typeArgs);
 
         var yupRule = yup[type](...ruleTypeArgs);
-        rules.forEach(rule => {
-            let fn = rule.shift();
+        rules.forEach(([fn, ...rule]) => {
             if (!fn || !yupRule[fn]) {
                 throw new Error('Method ' + fn + ' does not exist');
             }
