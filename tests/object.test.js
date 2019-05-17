@@ -512,6 +512,21 @@ describe('Object types', () => {
         ]);
     });
 
+    it('should handle default null for object', () => {
+        let inst = new Rules([
+            ['object', {
+                other: [
+                    ['bool']
+                ]
+            }],
+            ['default', null]
+        ]).toYup()
+
+        expect(inst.concat(new Rules([
+            ['object']
+        ]).toYup()).default()).to.equal(null);
+    })
+
     it('should work with noUnknown', () => {
         let inst = new Rules([
             ['object', {

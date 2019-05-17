@@ -25,7 +25,8 @@ export default class Rules {
 
     processArgs(args) {
         return args.reduce((result, arg) => {
-            if (typeof arg === 'object' && arg.constructor === Object && !Array.isArray(arg)) {
+            // test for arg !== null, because typeof null === "object", but null.constructor is Uncaught TypeError
+            if (arg !== null && typeof arg === 'object' && arg.constructor === Object && !Array.isArray(arg)) {
                 return [ ...result, this.handleObject(arg)];
             } else if (this.isRule(arg)) {
                 return [ ...result, new Rules(arg).toYup()];
