@@ -1,6 +1,6 @@
 {
     "name": "@flipbyte/yup-schema",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Easily define your yup rules using arrays instead of yup object",
     "main": "lib/index.js",
     "module": "es/index.js",
