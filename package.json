@@ -1,6 +1,6 @@
 {
     "name": "yup-schema",
-    "version": "1.0.0-alpha.1",
+    "version": "1.0.0-alpha.2",
     "description": "Easily define your yup rules using arrays instead of yup object",
     "main": "lib/index.js",
     "module": "es/index.js",
@@ -37,6 +37,6 @@
     "homepage": "",
     "repository": {
         "type": "git",
-        "url": "https://github.com/flipbyte/yup-schema.git"
+        "url": "https://github.com/harveyramer/yup-schema.git"
     }
 }
