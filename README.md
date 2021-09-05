@@ -1,11 +1,10 @@
 # yup-schema
 [Developed by Flipbyte](https://www.flipbyte.com/)
 
-[![Build Status][build-badge]][build]
+This project was cloned from the Flipbyte project because that project was no longer being patched and maintained. 
+
 [![npm package][npm-badge]][npm]
-[![Coverage Status][coveralls-badge]][coveralls]
 [![license][license-badge]][license]
-[![Codacy Badge][codacy-badge]][codacy]
 
 yup-schema is a simple library that allows you to write yup rules using arrays.
 
@@ -40,17 +39,8 @@ would become
 ## License
 The MIT License (MIT)
 
-[build-badge]: https://travis-ci.org/flipbyte/yup-schema.svg?branch=master
-[build]: https://travis-ci.org/flipbyte/yup-schema
-
-[npm-badge]: https://img.shields.io/npm/v/@flipbyte/yup-schema.svg
-[npm]: https://www.npmjs.com/package/@flipbyte/yup-schema
-
-[coveralls-badge]: https://coveralls.io/repos/github/flipbyte/yup-schema/badge.svg
-[coveralls]: https://coveralls.io/github/flipbyte/yup-schema
+[npm-badge]: https://img.shields.io/npm/v/yup-schema.svg
+[npm]: https://www.npmjs.com/package/yup-schema
 
 [license-badge]: https://badgen.now.sh/badge/license/MIT
 [license]: ./LICENSE
-
-[codacy-badge]: https://api.codacy.com/project/badge/Grade/1352a47a773b4d49b3b3d6956417ba2a
-[codacy]: https://www.codacy.com/app/flipbyte/yup-schema?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=flipbyte/yup-schema&amp;utm_campaign=Badge_Grade
