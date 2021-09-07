@@ -1,6 +1,6 @@
 {
-    "name": "@flipbyte/yup-schema",
-    "version": "0.1.5",
+    "name": "yup-schema",
+    "version": "1.0.0-alpha.2",
     "description": "Easily define your yup rules using arrays instead of yup object",
     "main": "lib/index.js",
     "module": "es/index.js",
@@ -18,11 +18,11 @@
         "test:watch": "nwb test --server"
     },
     "dependencies": {
-        "yup": "^0.26.10"
+        "yup": "^0.32.9"
     },
     "devDependencies": {
         "karma-chai-plugins": "^0.9.0",
-        "nwb": "0.23.x"
+        "nwb": "^0.25.2"
     },
     "author": "",
     "license": "MIT",
@@ -37,6 +37,6 @@
     "homepage": "",
     "repository": {
         "type": "git",
-        "url": "https://github.com/flipbyte/yup-schema.git"
+        "url": "https://github.com/harveyramer/yup-schema.git"
     }
 }
